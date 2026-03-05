@@ -3,27 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Market E-Shop</title>
+    <title>MySuperMarket | Αρχική</title>
     <style>
-        /* --- CSS STYLES --- */
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; margin: 0; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
+        /* === ΒΑΣΙΚΗ ΜΟΡΦΟΠΟΙΗΣΗ === */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f4f4; 
+            margin: 0; 
+            overflow-x: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
 
-        /* Header */
+        /* === HEADER & NAVIGATION === */
         .header {
-            background-color: #2c3e50; color: white; padding: 10px 20px;
-            display: flex; align-items: center; justify-content: space-between;
-            position: fixed; width: 100%; top: 0; z-index: 1000; height: 70px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2); box-sizing: border-box; gap: 20px;
+            background-color: #2c3e50; 
+            color: white; 
+            padding: 10px 20px;
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between;
+            position: fixed; 
+            width: 100%; 
+            top: 0; 
+            z-index: 1000; 
+            height: 70px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+            box-sizing: border-box; 
+            gap: 20px;
         }
         .menu-area { display: flex; align-items: center; min-width: 180px; }
         .menu-icon { font-size: 24px; cursor: pointer; margin-right: 15px; }
         .logo { font-size: 1.5em; font-weight: bold; white-space: nowrap; }
 
+        /* Αναζήτηση */
         .search-container { flex-grow: 1; max-width: 500px; display: flex; align-items: center; }
         .search-input { width: 100%; padding: 10px 15px; border-radius: 20px 0 0 20px; border: none; outline: none; font-size: 1em; }
         .search-btn { background: #3498db; border: none; padding: 10px 20px; border-radius: 0 20px 20px 0; cursor: pointer; color: white; font-size: 1.2em; transition: 0.2s; }
         .search-btn:hover { background: #2980b9; }
 
+        /* Κουμπιά Χρήστη */
         .user-actions { display: flex; align-items: center; gap: 10px; }
         .user-btn {
             background: transparent; border: 1px solid white; color: white;
@@ -39,7 +59,7 @@
         }
         .cart-icon:hover { background: #219150; transform: scale(1.05); }
 
-        /* Sidebar Κατηγοριών */
+        /* === SIDEBAR (Κατηγορίες) === */
         .sidebar { 
             height: 100%; width: 260px; position: fixed; z-index: 999; top: 0; left: -260px; 
             background-color: #34495e; overflow-x: hidden; overflow-y: auto;
@@ -50,9 +70,11 @@
         .category-btn { padding: 15px 25px; text-decoration: none; font-size: 18px; color: #ecf0f1; display: block; transition: 0.3s; background: none; border: none; width: 100%; text-align: left; cursor: pointer; }
         .category-btn:hover { background-color: #2c3e50; }
         .active-cat { background-color: #27ae60; }
+        
+        /* Σκοτεινό φόντο όταν ανοίγει το μενού */
         #overlay { position: fixed; display: none; width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); z-index: 900; }
 
-        /* Main Content */
+        /* === ΚΕΝΤΡΙΚΟ ΠΕΡΙΕΧΟΜΕΝΟ (Προϊόντα) === */
         .main-content { margin-top: 80px; padding: 20px; flex: 1; }
         
         .controls-bar {
@@ -64,7 +86,7 @@
 
         #products-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
         
-        /* Products Card Styles */
+        /* Κάρτα Προϊόντος */
         .product-card { 
             background: white; border-radius: 8px; padding: 15px; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; 
@@ -82,12 +104,13 @@
         .price { font-size: 1.3em; color: #27ae60; font-weight: bold; }
         .stock-info { font-size: 0.8em; color: #7f8c8d; margin-bottom: 10px; }
         .low-stock { color: #e74c3c; font-weight: bold; }
+        
         .quantity-controls { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 15px 0; }
         .qty-btn { background-color: #ecf0f1; border: 1px solid #bdc3c7; color: #333; width: 30px; height: 30px; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .btn-add { background-color: #3498db; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; width: 100%; }
         .btn-add:hover { background-color: #2980b9; }
 
-        /* Footer */
+        /* === FOOTER === */
         .footer {
             background-color: #2c3e50; color: #ecf0f1; padding: 40px 20px 20px 20px; margin-top: 50px;
             display: flex; justify-content: space-around; flex-wrap: wrap; text-align: left;
@@ -97,11 +120,16 @@
         .footer p { margin: 5px 0; color: #bdc3c7; font-size: 0.95em; }
         .footer-bottom { width: 100%; text-align: center; margin-top: 30px; border-top: 1px solid #34495e; padding-top: 20px; font-size: 0.8em; color: #7f8c8d; }
 
-        /* Modals (Login, Cart, History) */
-        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 2000; overflow: hidden; flex-direction: column; }
+        /* === MODALS (Αναδυόμενα Παράθυρα) === */
+        .modal { 
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+            width: 90%; max-width: 400px; background: white; border-radius: 10px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 2000; overflow: hidden; flex-direction: column; 
+        }
         .modal-header { background: #2c3e50; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; }
         .close-btn { cursor: pointer; font-size: 1.5em; background: none; border: none; color: white; }
         .modal-body { padding: 20px; overflow-y: auto; }
+        
         #cart-modal, #history-modal { max-width: 600px; max-height: 80vh; }
         #history-content { white-space: pre-wrap; font-family: monospace; background: #f9f9f9; padding: 15px; border-radius: 5px; border: 1px solid #ddd; max-height: 400px; overflow-y: auto; }
         
@@ -115,6 +143,7 @@
         .total-price { font-size: 1.4em; font-weight: bold; color: #2c3e50; }
         .checkout-btn { background: #27ae60; color: white; border: none; padding: 10px 20px; font-size: 1.1em; border-radius: 5px; cursor: pointer; }
         
+        /* Φόρμες (Login/Register) */
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; color: #333; }
         .form-group input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 4px; }
@@ -124,6 +153,7 @@
 
         #modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1500; }
 
+        /* Responsive Design για κινητά */
         @media (max-width: 600px) {
             .header { flex-wrap: wrap; height: auto; padding-bottom: 10px; }
             .search-container { order: 3; width: 100%; margin-top: 10px; }
@@ -139,16 +169,19 @@
     <div class="header">
         <div class="menu-area">
             <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
-            <div class="logo">My SuperMarket</div>
+            <div class="logo">MySuperMarket</div>
         </div>
+        
         <div class="search-container">
             <input type="text" id="search-input" class="search-input" placeholder="Αναζήτηση προϊόντος..." onkeypress="handleEnter(event)">
             <button class="search-btn" onclick="performSearch()">🔍</button>
         </div>
+        
         <div class="user-actions">
             <button id="login-btn" class="user-btn" onclick="openLoginModal()">👤 Σύνδεση</button>
             <button id="history-btn" class="user-btn" onclick="openHistory()" style="display:none; background:#e67e22; border:none">📜 Ιστορικό</button>
             <button id="logout-btn" class="user-btn" onclick="logout()" style="display:none; background:#c0392b; border:none">🚪 Έξοδος</button>
+            
             <div class="cart-icon" onclick="openCart()">
                 🛒 <span id="cart-count" style="background:white; color:#27ae60; padding:2px 8px; border-radius:10px; font-weight:bold; margin-left:5px">0</span>
             </div>
@@ -159,7 +192,8 @@
     <div id="mySidebar" class="sidebar">
         <h2>Κατηγορίες</h2>
         <button class="category-btn active-cat" onclick="loadAllProducts(); toggleMenu()">Όλα τα προϊόντα</button>
-        <div id="categories-list"></div>
+        <div id="categories-list">
+            </div>
     </div>
 
     <div id="modal-overlay" onclick="closeAllModals()"></div>
@@ -171,11 +205,18 @@
         </div>
         <div class="modal-body">
             <div id="login-form">
-                <div class="form-group"><label>Username</label><input type="text" id="login-user" onkeydown="if(event.key==='Enter') document.getElementById('login-pass').focus()"></div>
-                <div class="form-group"><label>Password</label><input type="password" id="login-pass" onkeydown="if(event.key==='Enter') performLogin()"></div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="login-user" onkeydown="if(event.key==='Enter') document.getElementById('login-pass').focus()">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-pass" onkeydown="if(event.key==='Enter') performLogin()">
+                </div>
                 <button class="submit-btn" onclick="performLogin()">Είσοδος</button>
                 <div class="switch-link">Νέος πελάτης; <a onclick="showRegister()">Εγγραφή εδώ</a></div>
             </div>
+            
             <div id="register-form" style="display:none">
                 <div class="form-group"><label>Όνομα</label><input type="text" id="reg-fname"></div>
                 <div class="form-group"><label>Επώνυμο</label><input type="text" id="reg-lname"></div>
@@ -192,7 +233,8 @@
             <h2>🛒 Το Καλάθι μου</h2>
             <button class="close-btn" onclick="closeAllModals()">&times;</button>
         </div>
-        <div class="modal-body" id="cart-items-list"></div>
+        <div class="modal-body" id="cart-items-list">
+            </div>
         <div class="cart-footer">
             <div class="total-price">Σύνολο: <span id="cart-total">0.00</span>€</div>
             <button class="checkout-btn" onclick="performCheckout()">Ταμείο</button>
@@ -212,6 +254,7 @@
     <div class="main-content">
         <div class="controls-bar">
             <h2 id="page-title">Όλα τα προϊόντα</h2>
+            
             <select id="sort-select" class="sort-select" onchange="handleSort()">
                 <option value="default">Προεπιλογή</option>
                 <option value="price-asc">Τιμή: Χαμηλή -> Υψηλή</option>
@@ -219,12 +262,15 @@
                 <option value="name-asc">Όνομα: Α -> Ω</option>
             </select>
         </div>
-        <div id="products-container"><p style="text-align:center">Φόρτωση δεδομένων...</p></div>
+        
+        <div id="products-container">
+            <p style="text-align:center">Φόρτωση προϊόντων...</p>
+        </div>
     </div>
 
     <div class="footer">
         <div class="footer-column">
-            <h3>My SuperMarket</h3>
+            <h3>MySuperMarket</h3>
             <p>Το αγαπημένο σας ηλεκτρονικό κατάστημα!</p>
             <p>Φρέσκα προϊόντα, χαμηλές τιμές και άμεση εξυπηρέτηση στην πόρτα σας.</p>
         </div>
@@ -234,286 +280,343 @@
             <p>📞 +30 2310 123 456</p>
             <p>📧 info@mysupermarket.gr</p>
         </div>
-        <div class="footer-column">
-            <h3>Ωράριο Λειτουργίας</h3>
-            <p>Δευ - Παρ: 08:00 - 21:00</p>
-            <p>Σάββατο: 08:00 - 20:00</p>
-            <p>Κυριακή: Κλειστά</p>
-        </div>
         <div class="footer-bottom">
-            &copy; 2026 My SuperMarket. All rights reserved. Designed for excellence.
+            &copy; 2026 MySuperMarket. All rights reserved. Designed for excellence.
         </div>
     </div>
 
     <script>
+        // Μεταβλητές για αποθήκευση της κατάστασης (State)
         let allProducts = [];
         let currentProducts = [];
-        
-        // --- ΝΕΟ: ΕΛΕΓΧΟΣ ΓΙΑ DEMO MODE ---
-        let isDemoMode = false;
-        let demoCart = []; // Εικονικό καλάθι για το Live Link
-        
-        // Ψεύτικα Δεδομένα (αν δεν βρει το IntelliJ)
-        const MOCK_CATEGORIES = [{catname: "Γαλακτοκομικά"}, {catname: "Αρτοποιείο"}, {catname: "Ποτά"}, {catname: "Σνακ"}];
-        const MOCK_PRODUCTS = [
-            {title: "Φρέσκο Γάλα Πλήρες", price: 1.20, unit: "τεμάχιο", catname: "Γαλακτοκομικά", quantity: 20},
-            {title: "Ψωμί του Τοστ", price: 1.50, unit: "τεμάχιο", catname: "Αρτοποιείο", quantity: 15},
-            {title: "Amstel 250ml", price: 1.10, unit: "τεμάχιο", catname: "Ποτά", quantity: 50},
-            {title: "Πατατάκια Αλάτι", price: 1.80, unit: "τεμάχιο", catname: "Σνακ", quantity: 30},
-            {title: "Μήλα Στάρκιν", price: 1.95, unit: "κιλό", catname: "Φρούτα", quantity: 0}
-        ];
 
-        // 1. Φόρτωση Κατηγοριών
+        // --- ΑΡΧΙΚΟΠΟΙΗΣΗ ---
+        // 1. Φόρτωση κατηγοριών στο Sidebar
         fetch('http://localhost:8080/categories')
             .then(res => res.json())
-            .then(cats => setupCategoriesList(cats))
-            .catch(err => {
-                console.warn("Το Java Backend είναι κλειστό. Ενεργοποίηση Demo Mode.");
-                isDemoMode = true;
-                setupCategoriesList(MOCK_CATEGORIES);
+            .then(cats => {
+                const list = document.getElementById('categories-list');
+                cats.forEach(cat => {
+                    const btn = document.createElement('button');
+                    btn.className = 'category-btn';
+                    btn.innerText = cat.catname;
+                    btn.onclick = function() { filterProducts(cat.catname, this); toggleMenu(); };
+                    list.appendChild(btn);
+                });
             });
 
-        function setupCategoriesList(cats) {
-            const list = document.getElementById('categories-list');
-            list.innerHTML = '';
-            cats.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = 'category-btn';
-                btn.innerText = cat.catname;
-                btn.onclick = function() { filterProducts(cat.catname, this); toggleMenu(); };
-                list.appendChild(btn);
-            });
-        }
-
-        // 2. Φόρτωση Προϊόντων
+        // 2. Φόρτωση προϊόντων και έλεγχος σύνδεσης χρήστη
         loadAllProducts();
-        
-        function loadAllProducts() {
-            if (isDemoMode) {
-                processLoadedProducts(MOCK_PRODUCTS);
-                document.getElementById('page-title').innerText = "Όλα τα προϊόντα (Demo Mode)";
-                return;
-            }
+        checkCurrentUser();
 
+        // --- ΒΑΣΙΚΕΣ ΛΕΙΤΟΥΡΓΙΕΣ ΠΡΟΪΟΝΤΩΝ ---
+        function loadAllProducts() {
             fetch('http://localhost:8080/products')
                 .then(res => res.json())
                 .then(prods => {
-                    processLoadedProducts(prods);
+                    allProducts = prods;
+                    renderProducts(prods);
+                    updateCartCount();
                     document.getElementById('page-title').innerText = "Όλα τα προϊόντα";
-                })
-                .catch(err => {
-                    isDemoMode = true;
-                    processLoadedProducts(MOCK_PRODUCTS);
-                    document.getElementById('page-title').innerText = "Όλα τα προϊόντα (Demo Mode)";
                 });
-        }
-
-        function processLoadedProducts(prods) {
-            allProducts = prods;
-            renderProducts(prods);
-            updateCartCount();
-        }
-
-        function handleSort() {
-            const sortValue = document.getElementById('sort-select').value;
-            let sortedList = [...currentProducts];
-            if (sortValue === 'price-asc') sortedList.sort((a, b) => a.price - b.price);
-            else if (sortValue === 'price-desc') sortedList.sort((a, b) => b.price - a.price);
-            else if (sortValue === 'name-asc') sortedList.sort((a, b) => a.title.localeCompare(b.title));
-            renderProducts(sortedList, false);
         }
 
         function renderProducts(list, updateCurrent = true) {
             if (updateCurrent) currentProducts = list;
             const container = document.getElementById('products-container'); 
             container.innerHTML = '';
-            if (list.length === 0) {
+            
+            if(list.length === 0){
                 container.innerHTML = '<p style="text-align:center;width:100%">Δεν βρέθηκαν προϊόντα.</p>';
                 return;
             }
+            
             list.forEach(p => {
-                const qId = `qty-${p.title.replace(/\s+/g, '-')}`;
-                let sTxt = `Απόθεμα: ${p.quantity} ${p.unit}`; 
-                if (p.quantity === 0) sTxt = "ΕΞΑΝΤΛΗΘΗΚΕ";
+                const qId = `qty-${p.title.replace(/\s+/g,'-')}`;
+                let stockText = `Απόθεμα: ${p.quantity} ${p.unit}`; 
+                if (p.quantity === 0) stockText = "ΕΞΑΝΤΛΗΘΗΚΕ";
+                
+                // Υπολογισμός εικόνας: Τίτλος προϊόντος + .jpg
                 const imageName = p.title + ".jpg";
 
                 const card = `
-                    <div class="product-card">
-                        <img src="images/${imageName}" class="product-img" alt="${p.title}" 
-                             onerror="this.onerror=null; this.src='images/default.jpg';">
-                        <div class="title">${p.title}</div>
-                        <div class="price">${p.price.toFixed(2)} € <span style="font-size:0.6em;color:grey">/${p.unit}</span></div>
-                        <p style="font-size:0.85em;color:gray">${p.catname}</p>
-                        <div class="stock-info ${p.quantity < 5 ? 'low-stock' : ''}">${sTxt}</div>
-                        <div class="quantity-controls">
-                            <button class="qty-btn" onclick="chQty('${qId}', -1)">-</button>
-                            <span id="${qId}" class="qty-display">1</span>
-                            <button class="qty-btn" onclick="chQty('${qId}', 1)">+</button>
-                        </div>
-                        <button class="btn-add" onclick="addToCart('${p.title}', '${qId}', ${p.price})" ${p.quantity === 0 ? 'disabled style="background:grey"' : ''}>
-                            ${p.quantity === 0 ? 'Μη διαθέσιμο' : 'Προσθήκη'}
-                        </button>
-                    </div>`;
+                <div class="product-card">
+                    <img src="images/${imageName}" class="product-img" alt="${p.title}" 
+                         onerror="this.onerror=null; this.src='images/default.jpg';">
+                    
+                    <div class="title">${p.title}</div>
+                    <div class="price">${p.price} € <span style="font-size:0.6em;color:grey">/${p.unit}</span></div>
+                    <p style="font-size:0.85em;color:gray">${p.catname}</p>
+                    <div class="stock-info ${p.quantity < 5 ? 'low-stock' : ''}">${stockText}</div>
+                    
+                    <div class="quantity-controls">
+                        <button class="qty-btn" onclick="chQty('${qId}', -1)">-</button>
+                        <span id="${qId}" class="qty-display">1</span>
+                        <button class="qty-btn" onclick="chQty('${qId}', 1)">+</button>
+                    </div>
+                    
+                    <button class="btn-add" onclick="addToCart('${p.title}', '${qId}')" ${p.quantity === 0 ? 'disabled style="background:grey"' : ''}>
+                        ${p.quantity === 0 ? 'Μη διαθέσιμο' : 'Προσθήκη'}
+                    </button>
+                </div>`;
                 container.innerHTML += card;
             });
         }
 
-        // --- DEMO MODE ΕΛΕΓΧΟΙ ΓΙΑ ΚΑΛΑΘΙ ΚΑΙ LOGIN ---
-
-        function openLoginModal() { document.getElementById('modal-overlay').style.display='block'; document.getElementById('login-modal').style.display='flex'; showLogin(); }
-        function showRegister() { document.getElementById('login-form').style.display='none'; document.getElementById('register-form').style.display='block'; document.getElementById('modal-title').innerText="Εγγραφή"; }
-        function showLogin() { document.getElementById('login-form').style.display='block'; document.getElementById('register-form').style.display='none'; document.getElementById('modal-title').innerText="Σύνδεση"; }
-        
-        function performLogin() {
-            if(isDemoMode) {
-                updateUserUI("DemoUser");
-                closeAllModals();
-                alert("Συνδεθήκατε σε Demo Mode!");
-                return;
-            }
-            const u = document.getElementById('login-user').value; const p = document.getElementById('login-pass').value;
-            fetch(`http://localhost:8080/user/login?username=${u}&password=${p}`).then(r=>r.text()).then(resp=>{
-                if (resp.startsWith("success")) {
-                    const name = resp.split(":")[1]; 
-                    if(resp.split(":")[2] === "ADMIN") window.location.href="admin.html";
-                    else { updateUserUI(name); closeAllModals(); updateCartCount(); alert("Καλωσόρισες, "+name+"!"); }
-                } else alert("Λάθος στοιχεία!");
-            });
+        // Φιλτράρισμα & Ταξινόμηση
+        function filterProducts(category, btnElement) {
+            document.getElementById('page-title').innerText = category;
+            
+            // Ανανέωση του active class στο μενού
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active-cat'));
+            if (btnElement) btnElement.classList.add('active-cat');
+            
+            fetch('http://localhost:8080/products')
+                .then(r => r.json())
+                .then(all => renderProducts(all.filter(p => p.catname === category)));
         }
 
-        function performRegister() {
-            if(isDemoMode) { alert("Η εγγραφή δεν είναι διαθέσιμη στο Demo Mode."); return; }
-            const fn=document.getElementById('reg-fname').value; const ln=document.getElementById('reg-lname').value;
-            const u=document.getElementById('reg-user').value; const p=document.getElementById('reg-pass').value;
-            fetch(`http://localhost:8080/user/register?firstname=${fn}&lastname=${ln}&username=${u}&password=${p}`).then(r=>r.text()).then(resp=>{
-                if(resp==="success") { alert("Επιτυχής εγγραφή!"); showLogin(); } else alert("Το Username υπάρχει ήδη!");
-            });
+        function handleSort() {
+            const sortValue = document.getElementById('sort-select').value;
+            let sortedList = [...currentProducts];
+            
+            if (sortValue === 'price-asc') sortedList.sort((a, b) => a.price - b.price);
+            else if (sortValue === 'price-desc') sortedList.sort((a, b) => b.price - a.price);
+            else if (sortValue === 'name-asc') sortedList.sort((a, b) => a.title.localeCompare(b.title));
+            
+            renderProducts(sortedList, false);
         }
 
-        function logout() {
-            if(isDemoMode) { resetUILogout(); return; }
-            fetch('http://localhost:8080/user/logout').then(() => resetUILogout());
+        function performSearch() {
+            const query = document.getElementById('search-input').value; 
+            if(!query) { loadAllProducts(); return; }
+            
+            fetch('http://localhost:8080/products/search?query=' + query)
+                .then(r => r.json())
+                .then(res => {
+                    document.getElementById('page-title').innerText = `Αποτελέσματα για: "${query}"`; 
+                    renderProducts(res);
+                });
         }
+        function handleEnter(e) { if(e.key === 'Enter') performSearch(); }
 
-        function resetUILogout() {
-            document.getElementById('login-btn').style.display = 'flex'; 
-            document.getElementById('login-btn').innerText = "👤 Σύνδεση"; 
-            document.getElementById('login-btn').onclick = openLoginModal;
-            document.getElementById('logout-btn').style.display = 'none'; 
-            document.getElementById('history-btn').style.display = 'none';
-            document.getElementById('login-user').value = ""; document.getElementById('login-pass').value = "";
-            demoCart = []; // Αδειάζει το demo καλάθι
-            updateCartCount(); 
-            alert("Αποσυνδεθήκατε.");
+        // --- ΣΥΣΤΗΜΑ ΧΡΗΣΤΩΝ (LOGIN / REGISTER / LOGOUT) ---
+        function checkCurrentUser() { 
+            fetch('http://localhost:8080/user/name')
+                .then(r => r.text())
+                .then(name => { if(name !== "Guest") updateUserUI(name); }); 
         }
 
         function updateUserUI(name) {
-            const b = document.getElementById('login-btn'); b.innerHTML = "👤 " + name; b.onclick = null;
+            const btn = document.getElementById('login-btn'); 
+            btn.innerHTML = "👤 " + name; 
+            btn.onclick = null; // Απενεργοποίηση κλικ εφόσον είναι συνδεδεμένος
+            
             document.getElementById('logout-btn').style.display = 'flex'; 
             document.getElementById('history-btn').style.display = 'flex';
         }
 
+        function performLogin() {
+            const user = document.getElementById('login-user').value; 
+            const pass = document.getElementById('login-pass').value;
+            
+            fetch(`http://localhost:8080/user/login?username=${user}&password=${pass}`)
+                .then(r => r.text())
+                .then(resp => {
+                    if(resp.startsWith("success")) {
+                        const parts = resp.split(":"); 
+                        const name = parts[1]; 
+                        const role = parts[2];
+                        
+                        if(role === "ADMIN") { 
+                            alert("Καλωσόρισες Διαχειριστή " + name + "!"); 
+                            window.location.href = "admin.html"; // Μεταφορά στο Admin Panel
+                        } else { 
+                            updateUserUI(name); 
+                            closeAllModals(); 
+                            updateCartCount(); 
+                            alert("Καλωσόρισες, " + name + "!"); 
+                        }
+                    } else {
+                        alert("Λάθος στοιχεία!");
+                    }
+                });
+        }
+
+        function performRegister() {
+            const fn = document.getElementById('reg-fname').value; 
+            const ln = document.getElementById('reg-lname').value;
+            const u = document.getElementById('reg-user').value; 
+            const p = document.getElementById('reg-pass').value;
+            
+            fetch(`http://localhost:8080/user/register?firstname=${fn}&lastname=${ln}&username=${u}&password=${p}`)
+                .then(r => r.text())
+                .then(resp => {
+                    if(resp === "success") { 
+                        alert("Επιτυχής εγγραφή! Τώρα μπορείτε να συνδεθείτε."); 
+                        showLogin(); 
+                    } else {
+                        alert("Το Username υπάρχει ήδη!");
+                    }
+                });
+        }
+
+        function logout() {
+            fetch('http://localhost:8080/user/logout').then(() => {
+                // Επαναφορά εμφάνισης κουμπιών
+                const loginBtn = document.getElementById('login-btn');
+                loginBtn.style.display = 'flex'; 
+                loginBtn.innerText = "👤 Σύνδεση"; 
+                loginBtn.onclick = openLoginModal;
+                
+                document.getElementById('logout-btn').style.display = 'none'; 
+                document.getElementById('history-btn').style.display = 'none';
+                
+                // ΚΑΘΑΡΙΣΜΟΣ ΠΕΔΙΩΝ (Ασφάλεια δεδομένων)
+                document.getElementById('login-user').value = "";
+                document.getElementById('login-pass').value = "";
+                
+                updateCartCount(); 
+                alert("Αποσυνδεθήκατε με επιτυχία.");
+            });
+        }
+
+        // --- ΣΥΣΤΗΜΑ ΚΑΛΑΘΙΟΥ & ΑΓΟΡΩΝ ---
+        function chQty(id, delta) {
+            const span = document.getElementById(id);
+            let val = parseInt(span.innerText) + delta;
+            if (val < 1) val = 1;
+            span.innerText = val;
+        }
+
+        function addToCart(title, qtyId) {
+            const qty = document.getElementById(qtyId).innerText;
+            fetch(`http://localhost:8080/cart/add?title=${title}&quantity=${qty}`)
+                .then(r => r.text())
+                .then(msg => {
+                    alert(msg);
+                    updateCartCount();
+                });
+        }
+
+        function updateCartCount() {
+            fetch('http://localhost:8080/cart/count')
+                .then(r => r.json())
+                .then(c => document.getElementById('cart-count').innerText = c);
+        }
+
+        function refreshCartView() {
+            fetch('http://localhost:8080/cart/show')
+                .then(r => r.json())
+                .then(renderCartItems);
+        }
+
+        function renderCartItems(cart) {
+            const container = document.getElementById('cart-items-list');
+            container.innerHTML = '';
+            document.getElementById('cart-total').innerText = cart.totalCost.toFixed(2);
+            document.getElementById('cart-count').innerText = cart.order.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if(cart.order.length === 0){
+                container.innerHTML = '<p style="text-align:center">Το καλάθι σας είναι άδειο.</p>';
+                return;
+            }
+            
+            cart.order.forEach(item => {
+                container.innerHTML += `
+                <div class="cart-item">
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">${item.proion.title}</div>
+                        <div class="cart-item-price">${item.proion.price}€</div>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button class="qty-btn" onclick="updCart('${item.proion.title}', ${item.quantity - 1})">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="qty-btn" onclick="updCart('${item.proion.title}', ${item.quantity + 1})">+</button>
+                        <div class="cart-item-total">${item.kostos.toFixed(2)}€</div>
+                        <button class="btn-delete" onclick="remCart('${item.proion.title}')">🗑️</button>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function updCart(title, newQty) {
+            fetch(`http://localhost:8080/cart/update?title=${title}&quantity=${newQty}`)
+                .then(r => r.json())
+                .then(renderCartItems);
+        }
+
+        function remCart(title) {
+            if(confirm('Είστε σίγουρος ότι θέλετε να αφαιρέσετε το προϊόν;')) {
+                fetch(`http://localhost:8080/cart/remove?title=${title}`)
+                    .then(r => r.json())
+                    .then(renderCartItems);
+            }
+        }
+
+        function performCheckout() {
+            if(!confirm("Θέλετε να ολοκληρώσετε την αγορά;")) return;
+            
+            fetch('http://localhost:8080/cart/checkout')
+                .then(r => r.text())
+                .then(status => {
+                    if (status === "success") {
+                        alert("✅ Η αγορά ολοκληρώθηκε με επιτυχία!");
+                        closeAllModals();
+                        updateCartCount();
+                        loadAllProducts(); // Ανανέωση για μείωση αποθέματος
+                    } else if (status === "empty") {
+                        alert("⚠️ Το καλάθι είναι άδειο."); 
+                    } else { 
+                        alert("❌ Πρόβλημα κατά την αγορά. Ελέγξτε αν είστε συνδεδεμένοι."); 
+                    }
+                });
+        }
+
+        // --- ΒΟΗΘΗΤΙΚΕΣ ΣΥΝΑΡΤΗΣΕΙΣ (UI) ---
+        function toggleMenu() {
+            const sidebar = document.getElementById("mySidebar");
+            const overlay = document.getElementById("overlay");
+            sidebar.classList.toggle("active");
+            overlay.style.display = sidebar.classList.contains("active") ? "block" : "none";
+        }
+
+        function openLoginModal() { 
+            document.getElementById('modal-overlay').style.display = 'block'; 
+            document.getElementById('login-modal').style.display = 'flex'; 
+            showLogin(); 
+        }
+        
         function openCart() { 
             document.getElementById('modal-overlay').style.display = 'block'; 
             document.getElementById('cart-modal').style.display = 'flex'; 
             refreshCartView(); 
         }
-
-        function refreshCartView() {
-            if(isDemoMode) { renderDemoCart(); return; }
-            fetch('http://localhost:8080/cart/show').then(r => r.json()).then(renderCartItems);
+        
+        function openHistory() { 
+            document.getElementById('modal-overlay').style.display = 'block'; 
+            document.getElementById('history-modal').style.display = 'flex'; 
+            fetch('http://localhost:8080/user/history')
+                .then(r => r.text())
+                .then(text => { document.getElementById('history-content').innerText = text; }); 
         }
 
-        // --- ΛΟΓΙΚΗ ΓΙΑ ΤΟ ΕΙΚΟΝΙΚΟ ΚΑΛΑΘΙ (DEMO MODE) ---
-        function renderDemoCart() {
-            let totalCost = 0; let totalItems = 0;
-            const container = document.getElementById('cart-items-list'); container.innerHTML = '';
-            
-            demoCart.forEach(i => { totalCost += (i.price * i.qty); totalItems += i.qty; });
-            document.getElementById('cart-total').innerText = totalCost.toFixed(2);
-            document.getElementById('cart-count').innerText = totalItems;
-            
-            if (demoCart.length === 0) { container.innerHTML = '<p style="text-align:center">Το καλάθι είναι άδειο.</p>'; return; }
-            
-            demoCart.forEach((i, index) => {
-                const itemHTML = `
-                    <div class="cart-item">
-                        <div class="cart-item-info">
-                            <div class="cart-item-title">${i.title}</div>
-                            <div class="cart-item-price">${i.price.toFixed(2)}€</div>
-                        </div>
-                        <div class="cart-item-controls">
-                            <button class="qty-btn" onclick="updDemoCart(${index}, -1)">-</button>
-                            <span>${i.qty}</span>
-                            <button class="qty-btn" onclick="updDemoCart(${index}, 1)">+</button>
-                            <div class="cart-item-total">${(i.price * i.qty).toFixed(2)}€</div>
-                            <button class="btn-delete" onclick="remDemoCart(${index})">🗑️</button>
-                        </div>
-                    </div>`;
-                container.innerHTML += itemHTML;
-            });
+        function closeAllModals() { 
+            document.getElementById('modal-overlay').style.display = 'none'; 
+            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); 
         }
 
-        function updDemoCart(index, delta) {
-            demoCart[index].qty += delta;
-            if(demoCart[index].qty < 1) demoCart.splice(index, 1);
-            renderDemoCart(); updateCartCount();
+        function showRegister() { 
+            document.getElementById('login-form').style.display = 'none'; 
+            document.getElementById('register-form').style.display = 'block'; 
+            document.getElementById('modal-title').innerText = "Εγγραφή"; 
         }
-
-        function remDemoCart(index) { demoCart.splice(index, 1); renderDemoCart(); updateCartCount(); }
-
-        function addToCart(title, id, price) {
-            const qty = parseInt(document.getElementById(id).innerText);
-            if(isDemoMode) {
-                let found = demoCart.find(i => i.title === title);
-                if(found) found.qty += qty; else demoCart.push({title: title, price: price, qty: qty});
-                alert("Προστέθηκε στο Demo Καλάθι!");
-                updateCartCount();
-                return;
-            }
-            fetch(`http://localhost:8080/cart/add?title=${title}&quantity=${qty}`).then(r => r.text()).then(m => { alert(m); updateCartCount(); });
+        
+        function showLogin() { 
+            document.getElementById('login-form').style.display = 'block'; 
+            document.getElementById('register-form').style.display = 'none'; 
+            document.getElementById('modal-title').innerText = "Σύνδεση"; 
         }
-
-        function updateCartCount() {
-            if(isDemoMode) { document.getElementById('cart-count').innerText = demoCart.reduce((s, i) => s + i.qty, 0); return; }
-            fetch('http://localhost:8080/cart/count').then(r => r.json()).then(c => document.getElementById('cart-count').innerText = c);
-        }
-
-        function performCheckout() {
-            if(!confirm("Ολοκλήρωση αγοράς;")) return;
-            if(isDemoMode) {
-                if(demoCart.length === 0) { alert("Το καλάθι είναι άδειο."); return; }
-                alert("✅ Επιτυχία! (Demo Mode - Η παραγγελία δεν αποθηκεύτηκε πραγματικά)");
-                demoCart = []; closeAllModals(); updateCartCount();
-                return;
-            }
-            fetch('http://localhost:8080/cart/checkout').then(r => r.text()).then(s => {
-                if (s === "success") { alert("✅ Επιτυχία!"); closeAllModals(); updateCartCount(); loadAllProducts(); } 
-                else if (s === "empty") alert("⚠️ Άδειο καλάθι."); else alert("❌ Πρόβλημα.");
-            });
-        }
-
-        function renderCartItems(cart) { /* Κώδικας για κανονικό Server */
-            const container = document.getElementById('cart-items-list'); container.innerHTML = '';
-            document.getElementById('cart-total').innerText = cart.totalCost.toFixed(2);
-            document.getElementById('cart-count').innerText = cart.order.reduce((s, i) => s + i.quantity, 0);
-            if (cart.order.length === 0) { container.innerHTML = '<p style="text-align:center">Το καλάθι σας είναι άδειο.</p>'; return; }
-            cart.order.forEach(i => {
-                container.innerHTML += `<div class="cart-item"><div class="cart-item-info"><div class="cart-item-title">${i.proion.title}</div><div class="cart-item-price">${i.proion.price}€</div></div><div class="cart-item-controls"><button class="qty-btn" onclick="updCart('${i.proion.title}', ${i.quantity - 1})">-</button><span>${i.quantity}</span><button class="qty-btn" onclick="updCart('${i.proion.title}', ${i.quantity + 1})">+</button><div class="cart-item-total">${i.kostos.toFixed(2)}€</div><button class="btn-delete" onclick="remCart('${i.proion.title}')">🗑️</button></div></div>`;
-            });
-        }
-        function updCart(title, qty) { if(qty < 1) { remCart(title); return; } fetch(`http://localhost:8080/cart/update?title=${title}&quantity=${qty}`).then(r => r.json()).then(renderCartItems); }
-        function remCart(title) { if(confirm('Διαγραφή;')) fetch(`http://localhost:8080/cart/remove?title=${title}`).then(r => r.json()).then(renderCartItems); }
-
-        // --- ΒΟΗΘΗΤΙΚΑ ---
-        function checkCurrentUser() { if(!isDemoMode) fetch('http://localhost:8080/user/name').then(r => r.text()).then(n => { if (n !== "Guest") updateUserUI(n); }); }
-        function openHistory() { document.getElementById('modal-overlay').style.display = 'block'; document.getElementById('history-modal').style.display = 'flex'; if(isDemoMode) { document.getElementById('history-content').innerText = "Το ιστορικό δεν είναι διαθέσιμο σε Demo Mode."; return; } fetch('http://localhost:8080/user/history').then(r => r.text()).then(t => document.getElementById('history-content').innerText = t); }
-        function performSearch() { const q = document.getElementById('search-input').value; if(!q) { loadAllProducts(); return; } if(isDemoMode) { const res = MOCK_PRODUCTS.filter(p => p.title.toLowerCase().includes(q.toLowerCase())); document.getElementById('page-title').innerText = `Αποτελέσματα για: "${q}"`; renderProducts(res); return; } fetch('http://localhost:8080/products/search?query=' + q).then(r => r.json()).then(res => { document.getElementById('page-title').innerText = `Αποτελέσματα για: "${q}"`; renderProducts(res); }); }
-        function handleEnter(e) { if(e.key === 'Enter') performSearch(); }
-        function chQty(id, delta) { const e = document.getElementById(id); let v = parseInt(e.innerText) + delta; if(v < 1) v = 1; e.innerText = v; }
-        function toggleMenu() { const s = document.getElementById("mySidebar"); const o = document.getElementById("overlay"); s.classList.toggle("active"); o.style.display = s.classList.contains("active") ? "block" : "none"; }
-        function filterProducts(category, btnElement) { document.getElementById('page-title').innerText = category + (isDemoMode ? " (Demo)" : ""); document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active-cat')); if(btnElement) btnElement.classList.add('active-cat'); if(isDemoMode) { renderProducts(MOCK_PRODUCTS.filter(p => p.catname === category)); return; } fetch('http://localhost:8080/products').then(r => r.json()).then(all => renderProducts(all.filter(p => p.catname === category))); }
-        function closeAllModals() { document.getElementById('modal-overlay').style.display = 'none'; document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); }
     </script>
 </body>
 </html>

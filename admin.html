@@ -3,373 +3,341 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Super Market</title>
+    <title>Admin Panel | MySuperMarket</title>
     <style>
-        /* Στυλ παρόμοια με το User αλλά σε σκούρο θέμα για τον Admin */
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #2c3e50; 
-            color: #ecf0f1; 
-            margin: 0; 
-            overflow-x: hidden; 
-        }
+        /* === ΒΑΣΙΚΗ ΜΟΡΦΟΠΟΙΗΣΗ ADMIN === */
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #ecf0f1; margin: 0; }
+        
+        .header { background-color: #8e44ad; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .header h1 { margin: 0; font-size: 1.5em; }
+        
+        .btn-logout { background: #c0392b; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-logout:hover { background: #e74c3c; }
 
-        /* --- Header / Navigation Bar --- */
-        .header {
-            background-color: #1a252f; padding: 10px 20px;
-            display: flex; align-items: center; justify-content: space-between;
-            position: fixed; width: 100%; top: 0; z-index: 1000; height: 70px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3); box-sizing: border-box; gap: 20px;
-        }
-        .menu-area { display: flex; align-items: center; min-width: 180px; }
-        .menu-icon { font-size: 24px; cursor: pointer; margin-right: 15px; }
-        .logo { font-size: 1.5em; font-weight: bold; color: #3498db; }
+        .container { display: flex; padding: 20px; gap: 20px; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; }
         
-        .search-container { flex-grow: 1; max-width: 500px; display: flex; align-items: center; }
-        .search-input { width: 100%; padding: 10px; border-radius: 5px 0 0 5px; border: none; outline: none; }
-        .search-btn { background: #3498db; border: none; padding: 10px 20px; border-radius: 0 5px 5px 0; cursor: pointer; color: white; }
+        /* Μενού Πλοήγησης Διαχειριστή */
+        .sidebar-admin { width: 250px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); overflow: hidden; height: fit-content; }
+        .menu-btn { display: block; width: 100%; text-align: left; padding: 15px 20px; border: none; background: none; font-size: 1.1em; cursor: pointer; border-bottom: 1px solid #eee; transition: 0.2s; }
+        .menu-btn:hover { background-color: #f4f6f7; color: #8e44ad; }
+        .menu-btn.active { background-color: #8e44ad; color: white; font-weight: bold; }
 
-        .logout-btn { background: #c0392b; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .logout-btn:hover { background: #e74c3c; }
+        /* Χώρος Εργασίας */
+        .workspace { flex: 1; min-width: 300px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .section-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #8e44ad; padding-bottom: 10px; margin-bottom: 20px; }
+        
+        .btn-add { background: #27ae60; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; }
+        .btn-add:hover { background: #2ecc71; }
 
-        /* --- SIDEBAR --- */
-        /* Προσοχή: Το κάναμε 2001 για να είναι πάνω από το overlay (που είναι 1500) αλλιώς έκρυβε το μενού */
-        .sidebar { 
-            height: 100%; width: 280px; position: fixed; 
-            z-index: 2001; 
-            top: 0; left: -280px; 
-            background-color: #1a252f; overflow-y: auto; transition: 0.3s; 
-            padding-top: 80px; box-sizing: border-box; padding-bottom: 50px;
-        }
-        .sidebar.active { left: 0; }
-        .sidebar h2 { color: #bdc3c7; text-align: center; border-bottom: 1px solid #34495e; padding-bottom: 10px; margin-top: 20px; font-size: 1.1em; }
+        /* Πίνακες Δεδομένων */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f8f9fa; color: #333; }
+        tr:nth-child(even) { background-color: #fcfcfc; }
         
-        .sidebar-section { padding: 0 10px; margin-bottom: 20px; }
-        .category-btn { 
-            padding: 12px 15px; width: 100%; text-align: left; background: none; border: none; 
-            color: #ecf0f1; cursor: pointer; transition: 0.2s; border-radius: 5px; font-size: 1em;
-        }
-        .category-btn:hover { background-color: #34495e; }
-        
-        /* Κουμπιά ενεργειών Admin */
-        .action-btn { background: #2980b9; margin-bottom: 5px; font-weight: bold; }
-        .action-btn:hover { background: #3498db; }
-        .stats-btn { background: #8e44ad; margin-bottom: 5px; }
-        .stats-btn:hover { background: #9b59b6; }
+        .btn-sm { padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer; font-size: 0.9em; margin-right: 5px; }
+        .btn-edit { background: #f39c12; color: white; }
+        .btn-del { background: #e74c3c; color: white; }
 
-        /* --- Main Content --- */
-        .main-content { margin-top: 80px; padding: 20px; transition: 0.3s; }
-        #page-title { text-align: center; margin-bottom: 20px; }
-        
-        /* Χρήση CSS Grid για τις κάρτες των προϊόντων */
-        #products-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
-        
-        /* Product Card */
-        .product-card { 
-            background: #ecf0f1; color: #2c3e50; border-radius: 8px; padding: 15px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; position: relative;
-        }
-        .title { font-weight: bold; font-size: 1.1em; margin-bottom: 5px; height: 40px; overflow: hidden; }
-        .price-qty { display: flex; justify-content: space-between; margin: 10px 0; font-weight: bold; background: #bdc3c7; padding: 5px; border-radius: 5px; }
-        
-        .card-actions { display: flex; gap: 10px; margin-top: 10px; }
-        .card-btn { flex: 1; padding: 8px; border: none; border-radius: 5px; cursor: pointer; color: white; font-weight: bold; }
-        .edit-btn { background: #f39c12; }
-        .delete-btn { background: #e74c3c; }
-
-        /* --- Modals (Αναδυόμενα Παράθυρα) --- */
-        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; background: white; color: #333; border-radius: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); z-index: 2002; flex-direction: column; }
-        .modal-header { background: #34495e; color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-radius: 10px 10px 0 0; }
-        .close-btn { background: none; border: none; color: white; font-size: 1.5em; cursor: pointer; }
-        .modal-body { padding: 20px; overflow-y: auto; max-height: 70vh; }
+        /* Modals Διαχειριστή */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; width: 90%; max-width: 500px; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .modal-header { background: #8e44ad; color: white; padding: 15px; display: flex; justify-content: space-between; }
+        .modal-body { padding: 20px; max-height: 70vh; overflow-y: auto; }
+        .close { background: none; border: none; color: white; font-size: 1.5em; cursor: pointer; }
         
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group textarea { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        .submit-btn { width: 100%; padding: 10px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1.1em; }
-        
-        #stats-content { white-space: pre-wrap; font-family: monospace; background: #f9f9f9; padding: 15px; border: 1px solid #ddd; }
-        
-        /* Overlays (Μαύρο φόντο όταν ανοίγει κάτι) */
-        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1500; }
-        #modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1500; }
-        
-        /* Responsive design για κινητά */
-        @media (max-width: 600px) {
-            .header { flex-wrap: wrap; height: auto; }
-            .search-container { order: 3; width: 100%; margin-top: 10px; }
-        }
+        .form-group input { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .btn-submit { width: 100%; background: #8e44ad; color: white; border: none; padding: 10px; font-size: 1.1em; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="menu-area">
-            <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
-            <div class="logo">ADMIN PANEL</div>
-        </div>
-        <div class="search-container">
-            <input type="text" id="search-input" class="search-input" placeholder="Αναζήτηση προϊόντος..." onkeypress="if(event.key==='Enter') performSearch()">
-            <button class="search-btn" onclick="performSearch()">🔍</button>
-        </div>
-        <button class="logout-btn" onclick="window.location.href='index.html'">🚪 Έξοδος</button>
+        <h1>⚙️ Πίνακας Ελέγχου Διαχειριστή</h1>
+        <button class="btn-logout" onclick="adminLogout()">Αποσύνδεση</button>
     </div>
 
-    <div id="overlay" onclick="toggleMenu()"></div>
-    
-    <div id="mySidebar" class="sidebar">
-        <div class="sidebar-section">
-            <h2>⚙️ Διαχείριση</h2>
-            <button class="category-btn action-btn" onclick="openAddModal()">➕ Προσθήκη Προϊόντος</button>
-            <button class="category-btn stats-btn" onclick="showStats('topsellers')">🏆 Top Sellers</button>
-            <button class="category-btn stats-btn" onclick="showStats('unavailable')">⚠️ Sold Out / Ελλείψεις</button>
+    <div class="container">
+        <div class="sidebar-admin">
+            <button class="menu-btn active" id="btn-products" onclick="switchTab('products')">📦 Προϊόντα</button>
+            <button class="menu-btn" id="btn-categories" onclick="switchTab('categories')">📁 Κατηγορίες</button>
+            <button class="menu-btn" id="btn-users" onclick="switchTab('users')">👥 Χρήστες</button>
+            <button class="menu-btn" id="btn-history" onclick="switchTab('history')">📜 Ιστορικό Αγορών</button>
         </div>
-        <div class="sidebar-section">
-            <h2>📂 Κατηγορίες</h2>
-            <button class="category-btn" onclick="loadAllProducts(); toggleMenu()">Όλα τα προϊόντα</button>
-            <div id="categories-list"></div>
-        </div>
-    </div>
 
-    <div class="main-content">
-        <h2 id="page-title">Επισκόπηση Προϊόντων</h2>
-        <div id="products-container"><p style="text-align:center">Φόρτωση δεδομένων από τον Server...</p></div>
-    </div>
+        <div class="workspace">
+            
+            <div id="tab-products">
+                <div class="section-header">
+                    <h2>Διαχείριση Προϊόντων</h2>
+                    <button class="btn-add" onclick="openAddModal()">+ Νέο Προϊόν</button>
+                </div>
+                <table>
+                    <thead><tr><th>Τίτλος</th><th>Κατηγορία</th><th>Τιμή</th><th>Απόθεμα</th><th>Ενέργειες</th></tr></thead>
+                    <tbody id="admin-products-list"></tbody>
+                </table>
+            </div>
 
-    <div id="modal-overlay" onclick="closeAllModals()"></div>
+            <div id="tab-categories" style="display:none">
+                <div class="section-header">
+                    <h2>Διαχείριση Κατηγοριών</h2>
+                </div>
+                <div style="margin-bottom: 20px; display:flex; gap:10px;">
+                    <input type="text" id="new-cat-name" placeholder="Όνομα Κατηγορίας..." style="padding:8px; flex:1;">
+                    <button class="btn-add" onclick="addCategory()">Προσθήκη</button>
+                </div>
+                <table>
+                    <thead><tr><th>Όνομα Κατηγορίας</th><th>Ενέργειες</th></tr></thead>
+                    <tbody id="admin-cats-list"></tbody>
+                </table>
+            </div>
 
-    <div id="add-modal" class="modal">
-        <div class="modal-header">
-            <h2>Προσθήκη Νέου Προϊόντος</h2>
-            <button class="close-btn" onclick="closeAllModals()">&times;</button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group"><label>Τίτλος</label><input type="text" id="add-title"></div>
-            <div class="form-group"><label>Περιγραφή</label><input type="text" id="add-desc"></div>
-            <div class="form-group"><label>Κατηγορία</label><input type="text" id="add-cat"></div>
-            <div class="form-group"><label>Υποκατηγορία</label><input type="text" id="add-sub"></div>
-            <div class="form-group"><label>Τιμή (€)</label><input type="number" step="0.01" id="add-price"></div>
-            <div class="form-group"><label>Ποσότητα</label><input type="number" id="add-qty"></div>
-            <button class="submit-btn" onclick="performAdd()">Αποθήκευση</button>
-        </div>
-    </div>
+            <div id="tab-users" style="display:none">
+                <div class="section-header"><h2>Εγγεγραμμένοι Χρήστες</h2></div>
+                <table>
+                    <thead><tr><th>Username</th><th>Ονοματεπώνυμο</th><th>Ρόλος</th><th>Ενέργειες</th></tr></thead>
+                    <tbody id="admin-users-list"></tbody>
+                </table>
+            </div>
 
-    <div id="edit-modal" class="modal">
-        <div class="modal-header">
-            <h2>Επεξεργασία Προϊόντος</h2>
-            <button class="close-btn" onclick="closeAllModals()">&times;</button>
-        </div>
-        <div class="modal-body">
-            <input type="hidden" id="edit-original-title">
-            <div class="form-group"><label>Τίτλος</label><input type="text" id="edit-title" disabled style="background:#eee"></div>
-            <div class="form-group"><label>Νέα Τιμή (€)</label><input type="number" step="0.01" id="edit-price"></div>
-            <div class="form-group"><label>Νέα Ποσότητα</label><input type="number" id="edit-qty"></div>
-            <button class="submit-btn" style="background:#f39c12" onclick="performUpdate()">Ενημέρωση</button>
+            <div id="tab-history" style="display:none">
+                <div class="section-header"><h2>Πλήρες Ιστορικό Συστήματος</h2></div>
+                <pre id="admin-history-content" style="background:#f9f9f9; padding:15px; border:1px solid #ddd; border-radius:5px; white-space:pre-wrap;"></pre>
+            </div>
+
         </div>
     </div>
 
-    <div id="stats-modal" class="modal">
-        <div class="modal-header">
-            <h2 id="stats-title">Στατιστικά</h2>
-            <button class="close-btn" onclick="closeAllModals()">&times;</button>
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Προσθήκη Προϊόντος</h2>
+                <button class="close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                
+                <div style="background:#e8f6f3; color:#16a085; padding:10px; border-radius:5px; font-size:0.9em; margin-bottom:15px; border:1px solid #a3e4d7;">
+                    📸 <b>Για την εικόνα:</b> Αφού αποθηκεύσετε, βάλτε στον φάκελο <i>images</i> μια φωτογραφία με όνομα ακριβώς ίδιο με τον τίτλο (π.χ. <b>Nutella.jpg</b>).
+                </div>
+
+                <input type="hidden" id="edit-original-title">
+
+                <div class="form-group"><label>Τίτλος Προϊόντος</label><input type="text" id="p-title"></div>
+                <div class="form-group"><label>Περιγραφή</label><input type="text" id="p-desc"></div>
+                <div class="form-group"><label>Κατηγορία</label><input type="text" id="p-cat"></div>
+                <div class="form-group"><label>Υποκατηγορία</label><input type="text" id="p-subcat"></div>
+                <div class="form-group"><label>Τιμή (€)</label><input type="number" step="0.01" id="p-price"></div>
+                <div class="form-group"><label>Απόθεμα (Τεμάχια/Kg)</label><input type="number" id="p-qty"></div>
+                <div class="form-group"><label>Μονάδα Μέτρησης (π.χ. tm, kg)</label><input type="text" id="p-unit" value="tm"></div>
+                
+                <button class="btn-submit" id="modal-submit-btn" onclick="saveProduct()">Αποθήκευση</button>
+            </div>
         </div>
-        <div class="modal-body"><div id="stats-content">Φόρτωση...</div></div>
     </div>
 
     <script>
-        // --- ΑΡΧΙΚΟΠΟΙΗΣΗ (Όταν φορτώνει η σελίδα) ---
-        
-        // Φέρνουμε τις κατηγορίες από το Java Backend
-        fetch('http://localhost:8080/categories')
-            .then(res => res.json())
-            .then(cats => {
-                console.log("Κατηγορίες που ήρθαν από το backend:", cats); // Debugging info
-                const list = document.getElementById('categories-list');
-                
-                cats.forEach(cat => {
-                    const btn = document.createElement('button');
-                    btn.className = 'category-btn';
-                    btn.innerText = cat.catname;
-                    btn.onclick = function() { 
-                        filterProducts(cat.catname); 
-                        toggleMenu(); 
-                    };
-                    list.appendChild(btn);
-                });
-            })
-            .catch(err => console.error("Σφάλμα σύνδεσης. Το Java backend τρέχει?", err));
-
-        // Φορτώνουμε όλα τα προϊόντα αρχικά
-        loadAllProducts();
-
-        // --- ΒΑΣΙΚΕΣ ΣΥΝΑΡΤΗΣΕΙΣ ---
-
-        function loadAllProducts() {
-            fetch('http://localhost:8080/products')
-                .then(res => res.json())
-                .then(prods => {
-                    renderProducts(prods);
-                    document.getElementById('page-title').innerText = "Όλα τα προϊόντα (" + prods.length + ")";
-                });
-        }
-
-        function performSearch() {
-            const query = document.getElementById('search-input').value; 
-            
-            if(!query) { 
-                loadAllProducts(); 
-                return; 
+        // Έλεγχος πρόσβασης: Μόνο ο ADMIN επιτρέπεται εδώ
+        fetch('http://localhost:8080/user/name').then(r=>r.text()).then(name => {
+            if(name === "Guest") {
+                alert("Δεν έχετε δικαίωμα πρόσβασης. Παρακαλώ συνδεθείτε.");
+                window.location.href = "index.html";
             }
+        });
 
-            fetch('http://localhost:8080/products/search?query=' + query)
-                .then(r => r.json())
-                .then(res => {
-                    document.getElementById('page-title').innerText = `Αποτελέσματα για: "${query}"`; 
-                    renderProducts(res);
-                });
-        }
+        // Φόρτωση αρχικών δεδομένων
+        loadAdminProducts();
 
-        // Συνάρτηση που "ζωγραφίζει" τις κάρτες των προϊόντων στο HTML
-        function renderProducts(list) {
-            const container = document.getElementById('products-container'); 
-            container.innerHTML = '';
-            
-            if (list.length === 0) {
-                container.innerHTML = '<p style="text-align:center; width: 100%;">Δεν βρέθηκαν προϊόντα.</p>';
-                return;
-            }
-
-            list.forEach(p => {
-                const card = `
-                    <div class="product-card">
-                        <div class="title">${p.title}</div>
-                        <div style="font-size:0.9em; margin-bottom:10px">${p.catname} / ${p.subname}</div>
-                        <div class="price-qty">
-                            <span>${p.price} €</span>
-                            <span>Stock: ${p.quantity}</span>
-                        </div>
-                        <div class="card-actions">
-                            <button class="card-btn edit-btn" onclick="openEditModal('${p.title}', ${p.price}, ${p.quantity})">✏️ Edit</button>
-                            <button class="card-btn delete-btn" onclick="performDelete('${p.title}')">🗑️ Del</button>
-                        </div>
-                    </div>`;
-                container.innerHTML += card;
+        // --- ΔΙΑΧΕΙΡΙΣΗ TABS (Εναλλαγή οθονών) ---
+        function switchTab(tabName) {
+            // Κρύβουμε όλα τα tabs
+            ['products', 'categories', 'users', 'history'].forEach(t => {
+                document.getElementById('tab-' + t).style.display = 'none';
+                document.getElementById('btn-' + t).classList.remove('active');
             });
+            
+            // Εμφανίζουμε το επιλεγμένο
+            document.getElementById('tab-' + tabName).style.display = 'block';
+            document.getElementById('btn-' + tabName).classList.add('active');
+
+            // Φόρτωση των αντίστοιχων δεδομένων από τη Βάση
+            if (tabName === 'products') loadAdminProducts();
+            if (tabName === 'categories') loadCategories();
+            if (tabName === 'users') loadUsers();
+            if (tabName === 'history') loadHistory();
         }
 
-        function filterProducts(categoryName) { 
+        // === ΛΕΙΤΟΥΡΓΙΕΣ ΠΡΟΪΟΝΤΩΝ (CRUD) ===
+        function loadAdminProducts() {
             fetch('http://localhost:8080/products')
                 .then(r => r.json())
-                .then(all => {
-                    const filtered = all.filter(p => p.catname === categoryName);
-                    renderProducts(filtered);
-                    document.getElementById('page-title').innerText = `Κατηγορία: ${categoryName}`;
-                }); 
+                .then(prods => {
+                    const tbody = document.getElementById('admin-products-list');
+                    tbody.innerHTML = '';
+                    prods.forEach(p => {
+                        tbody.innerHTML += `
+                        <tr>
+                            <td><b>${p.title}</b></td>
+                            <td>${p.catname}</td>
+                            <td>${p.price}€</td>
+                            <td>${p.quantity} ${p.unit}</td>
+                            <td>
+                                <button class="btn-sm btn-edit" onclick="openEditModal('${p.title}', '${p.desc}', '${p.catname}', '${p.subcatname}', ${p.price}, ${p.quantity}, '${p.unit}')">✎ Επεξεργασία</button>
+                                <button class="btn-sm btn-del" onclick="deleteProduct('${p.title}')">🗑️ Διαγραφή</button>
+                            </td>
+                        </tr>`;
+                    });
+                });
         }
 
-        // --- ΛΕΙΤΟΥΡΓΙΕΣ ADMIN (CRUD) ---
-
-        function performDelete(title) { 
-            if(confirm('Είστε σίγουροι για τη διαγραφή του: ' + title + ';')) {
-                fetch('http://localhost:8080/admin/delete?title=' + encodeURIComponent(title))
-                    .then(() => {
-                        alert('Το προϊόν διαγράφηκε επιτυχώς!');
-                        loadAllProducts();
-                    }); 
+        function deleteProduct(title) {
+            if(confirm(`Σίγουρα θέλετε να διαγράψετε το προϊόν "${title}";`)) {
+                fetch(`http://localhost:8080/admin/removeProduct?title=${title}`)
+                    .then(r => r.text())
+                    .then(res => { alert(res); loadAdminProducts(); });
             }
         }
 
-        function performAdd() {
-            // Παίρνουμε τις τιμές από τη φόρμα HTML
-            const t = encodeURIComponent(document.getElementById('add-title').value); 
-            const d = encodeURIComponent(document.getElementById('add-desc').value); 
-            const c = encodeURIComponent(document.getElementById('add-cat').value); 
-            const s = encodeURIComponent(document.getElementById('add-sub').value); 
-            const p = encodeURIComponent(document.getElementById('add-price').value); 
-            const q = encodeURIComponent(document.getElementById('add-qty').value);
+        // --- Modals Προϊόντων ---
+        function openAddModal() {
+            document.getElementById('modal-title').innerText = "Νέο Προϊόν";
+            document.getElementById('edit-original-title').value = ""; // Κενό σημαίνει προσθήκη
             
-            const url = `http://localhost:8080/admin/add?title=${t}&description=${d}&category=${c}&subcategory=${s}&price=${p}&quantity=${q}`;
+            // Καθαρισμός πεδίων
+            ['p-title', 'p-desc', 'p-cat', 'p-subcat', 'p-price', 'p-qty'].forEach(id => document.getElementById(id).value = "");
+            document.getElementById('p-unit').value = "tm";
             
-            fetch(url)
+            document.getElementById('product-modal').style.display = 'flex';
+        }
+
+        function openEditModal(title, desc, cat, subcat, price, qty, unit) {
+            document.getElementById('modal-title').innerText = "Επεξεργασία Προϊόντος";
+            document.getElementById('edit-original-title').value = title; // Αποθήκευση του παλιού τίτλου
+            
+            // Συμπλήρωση φόρμας με τα υπάρχοντα δεδομένα
+            document.getElementById('p-title').value = title;
+            document.getElementById('p-desc').value = desc !== 'undefined' ? desc : '';
+            document.getElementById('p-cat').value = cat;
+            document.getElementById('p-subcat').value = subcat !== 'undefined' ? subcat : '';
+            document.getElementById('p-price').value = price;
+            document.getElementById('p-qty').value = qty;
+            document.getElementById('p-unit').value = unit;
+            
+            document.getElementById('product-modal').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('product-modal').style.display = 'none'; }
+
+        // Αποθήκευση Προϊόντος (Είτε Νέο είτε Επεξεργασία)
+        function saveProduct() {
+            const originalTitle = document.getElementById('edit-original-title').value;
+            const t = document.getElementById('p-title').value;
+            const d = document.getElementById('p-desc').value;
+            const c = document.getElementById('p-cat').value;
+            const sc = document.getElementById('p-subcat').value;
+            const p = document.getElementById('p-price').value;
+            const q = document.getElementById('p-qty').value;
+            const u = document.getElementById('p-unit').value;
+
+            if(!t || !p || !q || !c) { alert("Παρακαλώ συμπληρώστε τα βασικά πεδία."); return; }
+
+            // Αν υπάρχει originalTitle, σημαίνει ότι κάνουμε Επεξεργασία (διαγράφουμε το παλιό, βάζουμε το νέο)
+            if (originalTitle) {
+                fetch(`http://localhost:8080/admin/removeProduct?title=${originalTitle}`).then(() => {
+                    sendAddRequest(t, d, c, sc, p, q, u);
+                });
+            } else {
+                // Είναι εντελώς νέο προϊόν
+                sendAddRequest(t, d, c, sc, p, q, u);
+            }
+        }
+
+        function sendAddRequest(t, d, c, sc, p, q, u) {
+            fetch(`http://localhost:8080/admin/addProduct?title=${t}&description=${d}&catname=${c}&subcatname=${sc}&price=${p}&quantity=${q}&unit=${u}`)
                 .then(r => r.text())
                 .then(res => { 
-                    if(res === 'success') {
-                        alert('Το προϊόν προστέθηκε επιτυχώς!');
-                        closeAllModals();
-                        loadAllProducts();
-                    } else {
-                        alert('Σφάλμα κατά την προσθήκη. Ελέγξτε τα στοιχεία.'); 
-                    }
+                    alert(res); 
+                    closeModal(); 
+                    loadAdminProducts(); 
                 });
         }
 
-        function performUpdate() {
-            const title = encodeURIComponent(document.getElementById('edit-original-title').value); 
-            const price = encodeURIComponent(document.getElementById('edit-price').value); 
-            const qty = encodeURIComponent(document.getElementById('edit-qty').value);
-            
-            fetch(`http://localhost:8080/admin/update?title=${title}&price=${price}&quantity=${qty}`)
-                .then(r => r.text())
-                .then(res => { 
-                    if(res === 'success') {
-                        alert('Τα στοιχεία ενημερώθηκαν!');
-                        closeAllModals();
-                        loadAllProducts();
-                    } else {
-                        alert('Υπήρξε κάποιο σφάλμα στην ενημέρωση.'); 
-                    }
+        // === ΛΕΙΤΟΥΡΓΙΕΣ ΚΑΤΗΓΟΡΙΩΝ ===
+        function loadCategories() {
+            fetch('http://localhost:8080/categories')
+                .then(r => r.json())
+                .then(cats => {
+                    const tbody = document.getElementById('admin-cats-list');
+                    tbody.innerHTML = '';
+                    cats.forEach(c => {
+                        tbody.innerHTML += `
+                        <tr>
+                            <td>${c.catname}</td>
+                            <td><button class="btn-sm btn-del" onclick="deleteCategory('${c.catname}')">🗑️ Διαγραφή</button></td>
+                        </tr>`;
+                    });
                 });
         }
 
-        function showStats(type) { 
-            closeAllModals(); 
-            document.getElementById('modal-overlay').style.display = 'block'; 
-            document.getElementById('stats-modal').style.display = 'flex'; 
-            
-            document.getElementById('stats-title').innerText = type === 'topsellers' ? 'Top Sellers' : 'Ελλείψεις'; 
-            
-            fetch('http://localhost:8080/admin/stats/' + type)
+        function addCategory() {
+            const name = document.getElementById('new-cat-name').value;
+            if(!name) return;
+            // Το backend μας χρειάζεται και subcategory, βάζουμε ένα default κενό
+            fetch(`http://localhost:8080/admin/addCategory?catname=${name}&subcatname=-`)
                 .then(r => r.text())
-                .then(txt => {
-                    document.getElementById('stats-content').innerText = txt;
-                }); 
-                
-            toggleMenu(); 
+                .then(res => { alert(res); document.getElementById('new-cat-name').value = ''; loadCategories(); });
         }
 
-        // --- UI UTILS (Κλείσιμο/Άνοιγμα παραθύρων) ---
-
-        function openAddModal() { 
-            closeAllModals(); 
-            document.getElementById('modal-overlay').style.display = 'block'; 
-            document.getElementById('add-modal').style.display = 'flex'; 
-            toggleMenu(); 
+        function deleteCategory(name) {
+            if(confirm(`Διαγραφή κατηγορίας "${name}";`)) {
+                fetch(`http://localhost:8080/admin/removeCategory?catname=${name}`)
+                    .then(r => r.text())
+                    .then(res => { alert(res); loadCategories(); });
+            }
         }
 
-        function openEditModal(title, price, qty) { 
-            closeAllModals(); 
-            document.getElementById('modal-overlay').style.display = 'block'; 
-            document.getElementById('edit-modal').style.display = 'flex'; 
-            
-            // Γεμίζουμε τη φόρμα με τα τρέχοντα δεδομένα
-            document.getElementById('edit-title').value = title; 
-            document.getElementById('edit-original-title').value = title; 
-            document.getElementById('edit-price').value = price; 
-            document.getElementById('edit-qty').value = qty; 
+        // === ΛΕΙΤΟΥΡΓΙΕΣ ΧΡΗΣΤΩΝ ===
+        function loadUsers() {
+            fetch('http://localhost:8080/users')
+                .then(r => r.json())
+                .then(users => {
+                    const tbody = document.getElementById('admin-users-list');
+                    tbody.innerHTML = '';
+                    users.forEach(u => {
+                        tbody.innerHTML += `
+                        <tr>
+                            <td>${u.username}</td>
+                            <td>${u.firstname} ${u.lastname}</td>
+                            <td>${u.role}</td>
+                            <td>
+                                ${u.role !== 'ADMIN' ? `<button class="btn-sm btn-del" onclick="deleteUser('${u.username}')">🗑️ Διαγραφή</button>` : '-'}
+                            </td>
+                        </tr>`;
+                    });
+                });
         }
 
-        function toggleMenu() { 
-            const sidebar = document.getElementById("mySidebar"); 
-            const overlay = document.getElementById("overlay"); 
-            sidebar.classList.toggle("active"); 
-            overlay.style.display = sidebar.classList.contains("active") ? "block" : "none"; 
+        function deleteUser(username) {
+            if(confirm(`Διαγραφή του χρήστη ${username};`)) {
+                fetch(`http://localhost:8080/admin/removeUser?username=${username}`)
+                    .then(r => r.text())
+                    .then(res => { alert(res); loadUsers(); });
+            }
         }
 
-        function closeAllModals() { 
-            document.getElementById('modal-overlay').style.display = 'none'; 
-            document.getElementById('overlay').style.display = 'none'; 
-            document.querySelectorAll('.modal').forEach(m => m.style.display = 'none'); 
-            document.getElementById("mySidebar").classList.remove("active"); 
+        // === ΙΣΤΟΡΙΚΟ ===
+        function loadHistory() {
+            fetch('http://localhost:8080/user/history')
+                .then(r => r.text())
+                .then(text => { document.getElementById('admin-history-content').innerText = text; });
+        }
+
+        // === ΑΠΟΣΥΝΔΕΣΗ ===
+        function adminLogout() {
+            fetch('http://localhost:8080/user/logout').then(() => {
+                window.location.href = "index.html";
+            });
         }
     </script>
 </body>
