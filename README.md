@@ -1,49 +1,50 @@
 # 🛒 MySuperMarket - E-Commerce Project
 
-Γεια σας! Καλώς ήρθατε στο repository του **MySuperMarket**. Αυτό είναι ένα ολοκληρωμένο project ηλεκτρονικού καταστήματος που έφτιαξα, με σκοπό να κάνω πρακτική εξάσκηση πάνω στο πώς επικοινωνεί το Frontend με το Backend (αρχιτεκτονική Client-Server). Ήθελα να δω πώς "δένουν" όλα μαζί, γι' αυτό και επέλεξα να γράψω τον κώδικα καθαρά στο frontend, χωρίς να βασιστώ σε έτοιμα frameworks!
+Hello! Welcome to the **MySuperMarket** repository. This is a complete e-commerce project I built to practice how the Frontend communicates with the Backend (Client-Server architecture). I wanted to see how everything "ties" together, which is why I chose to write pure frontend code, without relying on ready-made frameworks!
 
 ---
 
-## ⚠️ Μια μικρή αλλά σημαντική σημείωση
+## ⚠️ A small but important note
 
-Εδώ σε αυτό το repository έχω ανεβάσει **μόνο το Frontend** κομμάτι του project (δηλαδή τα αρχεία HTML, CSS και τη JavaScript). 
+Here in this repository, I have uploaded **only the Frontend** part of the project (i.e., the HTML, CSS, and JavaScript files).
 
-👉 **Το Backend του project (όλος ο κώδικας του Server σε Java) βρίσκεται σε ξεχωριστό repository! Μπορείτε να το βρείτε και να το μελετήσετε εδώ:** [Java-Supermarket-App](https://github.com/elsakarvouni/Java-Supermarket-App)
+👉 **The Backend of the project (all the Server code in Java) is located in a separate repository! You can find and study it here:** [Java-Supermarket-App](https://github.com/elsakarvouni/Java-Supermarket-App)
 
-Το project έχει σχεδιαστεί για να δουλεύει ακριβώς με αυτό το Backend, το οποίο τρέχει τοπικά και διαβάζει/γράφει τα δεδομένα. Επομένως, αν ανοίξετε το [Live Page](https://elsakarvouni.github.io/myshop-web/) κατευθείαν μέσα από το ίντερνετ, **η σελίδα θα φανεί άδεια από προϊόντα**. 
+The project is designed to work exactly with this Backend, which runs locally and reads/writes the data. Therefore, if you open the **Live Page** directly from the internet, **the page will appear empty of products**. 
 
-Ο λόγος που συμβαίνει αυτό είναι επειδή η JavaScript της σελίδας ψάχνει να κάνει `fetch` τα δεδομένα από το `localhost:8080` (τον δικό μου υπολογιστή). Αν δεν τρέχει ο server από πίσω, δεν μπορεί να τραβήξει τα προϊόντα ή να κάνει login τους χρήστες. 
-*(Αν θέλετε να δείτε πώς λειτουργεί πλήρως υπάρχει link με το demo στο τέλος του README!)*
+The reason this happens is because the page's JavaScript tries to `fetch` data from `localhost:8080` (my own computer). If the server is not running in the background, it cannot pull the products or log in the users. *(If you want to see how it fully works, there is a link to the demo video at the end of the README!)*
 
 ---
 
-## 💻 Τεχνολογίες που χρησιμοποίησα
+## 💻 Technologies I used
 
 * **Frontend:** HTML, CSS, JavaScript.
-* **Backend:** Java ( [Java-Supermarket-App](https://github.com/elsakarvouni/Java-Supermarket-App).
-* **Βάση Δεδομένων:** File-based σύστημα (αρχεία `.txt`). Αυτό με βοήθησε να κρατήσω το project ελαφρύ και εύκολο στο τοπικό τρέξιμο (διαβάζοντας users, products και history απευθείας από τα αρχεία).
+* **Backend:** Java ([Java-Supermarket-App](https://github.com/elsakarvouni/Java-Supermarket-App)).
+* **Database:** File-based system (`.txt` files). This helped me keep the project lightweight and easy to run locally (reading users, products, and history directly from the files).
 
 ---
 
-## ✨ Τι ακριβώς κάνει; (Βασικές Λειτουργίες)
+## ✨ What exactly does it do? (Core Features)
 
-Έχω χωρίσει το project σε δύο βασικά περιβάλλοντα, ανάλογα με τον ρόλο του χρήστη.
+I have divided the project into two main environments, depending on the user's role.
 
-### 🛒 Για τον Πελάτη (Customer)
-* **Δυναμική φόρτωση:** Τα προϊόντα και οι κατηγορίες "ζωγραφίζονται" δυναμικά στη σελίδα αφού τραβηχτούν από το API.
-* **Αναζήτηση & Φίλτρα:** Υπάρχει μπάρα αναζήτησης με βάση το όνομα, καθώς και sidebar για φιλτράρισμα ανά κατηγορία.
-* **Ταξινόμηση:** Μπορείς να βάλεις τα προϊόντα σε σειρά (π.χ. φθηνότερα πρώτα, αλφαβητικά, κλπ).
-* **Καλάθι Αγορών:** Προσθέτεις προϊόντα, αλλάζεις τις ποσότητες και βλέπεις το συνολικό κόστος. (Αν ένα προϊόν έχει εξαντληθεί, το κουμπί απενεργοποιείται αυτόματα!).
-* **Λογαριασμός Χρήστη:** Σύστημα εγγραφής, σύνδεσης και παρακολούθησης ιστορικού αγορών.
+### 🛒 For the Customer
+* **Dynamic loading:** Products and categories are "painted" dynamically on the page after being fetched from the API.
+* **Search & Filters:** There is a search bar based on the name, as well as a sidebar for filtering by category.
+* **Sorting:** You can order the products (e.g., cheapest first, alphabetically, etc.).
+* **Shopping Cart:** You add products, change quantities, and see the total cost. (If a product is out of stock, the button is automatically disabled!).
+* **User Account:** Registration, login, and order history tracking system.
 
-### ⚙️ Για τον Διαχειριστή (Admin Panel)
-*Η πρόσβαση σε αυτή τη σελίδα επιτρέπεται μόνο αν έχεις συνδεθεί με λογαριασμό που έχει τον ρόλο `ADMIN`.*
-* **Διαχείριση Προϊόντων:** Ένα ολοκληρωμένο panel όπου ο διαχειριστής μπορεί να προσθέσει νέα προϊόντα, να αλλάξει τις τιμές ή να ανανεώσει το απόθεμα όσων ήδη υπάρχουν, και να τα διαγράψει.
-* **Στατιστικά:** Δύο ειδικά κουμπιά που τραβάνε reports από το backend: ένα για τα προϊόντα που ξεπούλησαν (Top Sellers) και ένα για όσα είναι σε έλλειψη (Out of Stock).
-* **Ταξινόμηση:** Μπορείς να βάλεις τα προϊόντα σε σειρά (π.χ. φθηνότερα πρώτα, αλφαβητικά, κλπ).
+### ⚙️ For the Administrator (Admin Panel)
+*Access to this page is allowed only if you have logged in with an account that has the `ADMIN` role.*
+* **Product Management:** A complete panel where the admin can add new products, change prices, or update the stock of existing ones, and delete them.
+* **Statistics:** Two special buttons that pull reports from the backend: one for sold-out products (Top Sellers) and one for items in shortage (Out of Stock).
+* **Sorting:** You can order the products (e.g., cheapest first, alphabetically, etc.).
 
+---
 
 ## 🎥 Demo Video
 
-Επειδή, όπως εξήγησα παραπάνω, η εφαρμογή χρειάζεται τον τοπικό server για να λειτουργήσει πλήρως και δεν μπορείτε να τη δοκιμάσετε live εδώ τράβηξα ένα μικρό βίντεο παρουσίασης. 
-👉 **[Πατήστε εδώ για να δείτε το Demo Video στο YouTube] (ΒΑΛΕ_ΤΟ_LINK_ΣΟΥ_ΕΔΩ)**
+Because, as explained above, the application needs the local server to fully function and you cannot test it live here, I recorded a short presentation video. 
+
+👉 **[Click here to see the Demo Video on YouTube](INSERT_YOUR_LINK_HERE)**
