@@ -10,7 +10,7 @@ Here in this repository, I have uploaded **only the Frontend** part of the proje
 
 👉 **The Backend of the project (all the Server code in Java) is located in a separate repository! You can find and study it here:** [Java-Supermarket-App](https://github.com/elsakarvouni/Java-Supermarket-App)
 
-The project is designed to work exactly with this Backend, which runs locally and reads/writes the data. Therefore, if you open the **Live Page** directly from the internet, **the page will appear empty of products**. 
+The project is designed to work exactly with this Backend, which runs locally and reads/writes the data. Therefore, if you open the [Live Page](https://elsakarvouni.github.io/myshop-web/) directly from the internet, **the page will appear empty of products**. 
 
 The reason this happens is because the page's JavaScript tries to `fetch` data from `localhost:8080` (my own computer). If the server is not running in the background, it cannot pull the products or log in the users. *(If you want to see how it fully works, there is a link to the demo video at the end of the README!)*
 
