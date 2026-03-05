@@ -121,7 +121,16 @@
     </div>
 
     <div class="main-content">
-        <h2 id="page-title">Επισκόπηση Προϊόντων</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+            <h2 id="page-title" style="margin: 0;">Επισκόπηση Προϊόντων</h2>
+            <select id="sort-select" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; cursor: pointer;" onchange="handleSort()">
+                <option value="default">Προεπιλογή</option>
+                <option value="price-asc">Τιμή: Χαμηλή -> Υψηλή</option>
+                <option value="price-desc">Τιμή: Υψηλή -> Χαμηλή</option>
+                <option value="name-asc">Όνομα: Α -> Ω</option>
+            </select>
+        </div>
+        
         <div id="products-container"><p style="text-align:center">Φόρτωση...</p></div>
     </div>
 
@@ -158,6 +167,7 @@
 
     <script>
         // INIT
+        let currentProducts = []; // Κρατάει τα προϊόντα που βλέπουμε για να τα ταξινομήσει
         fetch('http://localhost:8080/categories').then(res => res.json()).then(cats => {
             const list = document.getElementById('categories-list');
             cats.forEach(cat => {
@@ -172,16 +182,41 @@
 
         function loadAllProducts() {
             fetch('http://localhost:8080/products').then(res => res.json()).then(prods => {
+                currentProducts = prods; // Αποθήκευση για ταξινόμηση
                 renderProducts(prods);
                 document.getElementById('page-title').innerText = "Όλα τα προϊόντα (" + prods.length + ")";
             });
         }
+        
         function performSearch() {
             const q = document.getElementById('search-input').value; if(!q) { loadAllProducts(); return; }
             fetch('http://localhost:8080/products/search?query=' + q).then(r=>r.json()).then(res=>{
-                document.getElementById('page-title').innerText = `Αποτελέσματα για: "${q}"`; renderProducts(res);
+                currentProducts = res; // Αποθήκευση για ταξινόμηση
+                document.getElementById('page-title').innerText = `Αποτελέσματα για: "${q}"`; 
+                renderProducts(res);
             });
         }
+
+        function filterProducts(c) { 
+            fetch('http://localhost:8080/products').then(r=>r.json()).then(all=>{
+                const filtered = all.filter(p=>p.catname===c);
+                currentProducts = filtered; // Αποθήκευση για ταξινόμηση
+                renderProducts(filtered);
+                document.getElementById('page-title').innerText = c + " (" + filtered.length + ")";
+            }); 
+        }
+
+        function handleSort() {
+            const sortValue = document.getElementById('sort-select').value;
+            let sortedList = [...currentProducts];
+            
+            if (sortValue === 'price-asc') sortedList.sort((a, b) => a.price - b.price);
+            else if (sortValue === 'price-desc') sortedList.sort((a, b) => b.price - a.price);
+            else if (sortValue === 'name-asc') sortedList.sort((a, b) => a.title.localeCompare(b.title));
+            
+            renderProducts(sortedList);
+        }
+
         function renderProducts(list) {
             const c = document.getElementById('products-container'); c.innerHTML = '';
             list.forEach(p => {

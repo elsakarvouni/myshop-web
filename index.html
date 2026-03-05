@@ -333,8 +333,7 @@
             
             list.forEach(p => {
                 const qId = `qty-${p.title.replace(/\s+/g,'-')}`;
-                let stockText = `Απόθεμα: ${p.quantity} ${p.unit}`; 
-                if (p.quantity === 0) stockText = "ΕΞΑΝΤΛΗΘΗΚΕ";
+                let stockText = p.quantity > 0 ? "Διαθέσιμο" : "ΕΞΑΝΤΛΗΘΗΚΕ";
                 
                 // Υπολογισμός εικόνας: Τίτλος προϊόντος + .jpg
                 const imageName = p.title + ".jpg";
